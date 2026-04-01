@@ -14,6 +14,12 @@ print(df.describe())
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+sns.boxplot(data['energy'])
+Q1 = data['energy'].quantile(0.25)
+Q3 = data['energy'].quantile(0.75)
+IQR = Q3 - Q1
+data = data[(data['energy'] >= Q1 - 1.5*IQR) & (data['energy'] <= Q3 + 1.5*IQR)]
+
 plt.figure(figsize=(10,6))
 sns.heatmap(df.corr(), annot=True, cmap="coolwarm")
 plt.show()
@@ -26,6 +32,9 @@ plt.xlabel("Time")
 plt.ylabel("Energy")
 plt.show()
 
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+data[['temperature','students']] = scaler.fit_transform(data[['temperature','students']])
 plt.scatter(df['students'], df['energy'])
 plt.xlabel("Students")
 plt.ylabel("Energy")

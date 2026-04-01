@@ -7,6 +7,7 @@ if n<=50:
     df = df.dropna()
 else:
     df.fillna(df.mode().iloc[0], inplace=True)
+data = data.drop_duplicates()
 
 print(df.describe())
 
